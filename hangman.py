@@ -26,5 +26,27 @@ def hangman():
             print("you've already guessed it try again")
             continue
         guessed_letter.append(guess)
+
+        if guess in word_to_guess: 
+            print("good guess '{}' is in the word.".format(guess))
+
+            for i in range (len(word_to_guess)):
+                if word_to_guess[i ] == guess:
+                    guessed_word[i ] = guess
+
+        else:
+            attempts += 1 
+            print("worng guess. you have {} attempts left".format(max_attempts-attempts))
+
+        print("word: "," ".join(guessed_word))
         
+    if "_" not in guessed_word :
+        print("congratulations you guessed the correct word {}".format(word_to_guess))
+    
+    else :
+        print("game over the word was {} better luck next time".format(word_to_guess))
+
+
+hangman()
+
 
