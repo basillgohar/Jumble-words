@@ -2,13 +2,6 @@ import turtle
 screen = turtle.Screen()
 screen.bgcolor("red")
 screen.setup(width= 500, height= 500 )
-turtle.color("black")
-turtle.shape("square")
-reward = turtle.Turtle()
-reward.color("blue")
-reward.shape("triangle")
-reward.penup()
-reward.speed(0)
 obstacles = []
 
 maze = ["XXXXXXXXXXXXXXX",
@@ -26,6 +19,7 @@ maze = ["XXXXXXXXXXXXXXX",
     "XXXXXXXXXXXXX F"]
 
 def create_maze():
+    global finish
     for y in range(len(maze)):
         for x in range(len(maze[y])):
             character = maze[y][x]
@@ -47,5 +41,66 @@ def create_maze():
                 finish.penup()
                 finish.goto(screen_x,screen_y)
 
+
+player = turtle.Turtle()
+player.shape("turtle")
+player.color("black")
+player.penup()
+player.speed(5)
+
+def move_up():
+    x_new = player.xcor()
+    y_new = player.ycor()+20
+    if vaild_move(x_new,y_new):
+        player.goto(x_new,y_new)
+        win()
+
+def move_down():
+    x_new = player.xcor()
+    y_new = player.ycor()-20
+    if vaild_move(x_new,y_new):
+        player.goto(x_new,y_new)
+        win()
+
+def move_right():
+    x_new = player.xcor()+20
+    y_new = player.ycor()
+    if vaild_move(x_new,y_new):
+        player.goto(x_new,y_new)
+        win()
+
+
+def move_left():
+    x_new = player.xcor()-20
+    y_new = player.ycor()
+    if vaild_move(x_new,y_new):
+        player.goto(x_new,y_new)
+        win()
+
+def vaild_move(x,y):
+    for obstacle in obstacles:
+        if obstacle.xcor() == x and obstacle.ycor() == y:
+            return False 
+
+    return True 
+
+def win():
+    if player.distance(finish)<2:
+        finish.hideturtle()
+        player.hideturtle()
+        screen.kill()
+        print("you have won")
+       
+
+screen.listen()
+
+screen.onkey(move_up, "Up")
+screen.onkey(move_down, "Down")
+screen.onkey(move_right, "Right")
+screen.onkey(move_left, "Left")
+
+
+
 create_maze()
+player.goto(0,0)
 screen.mainloop()
